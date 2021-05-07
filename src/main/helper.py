@@ -1,5 +1,5 @@
 from .gpxParser import Point
-from .directedGraph import *
+from .directedGraph import directedGraph, node
 
 import math
 def computeDistance(startPoint: Point, endPoint: Point, distantPoint: Point):
@@ -37,4 +37,15 @@ def buildDirectedGraph(listOfPoints):
     :param listOfPoints: a list of Points
     :return: a directed graph
     """
-    pass
+
+    if len(listOfPoints) == 0:
+        return directedGraph()
+
+    graph = directedGraph()
+
+    for i in range(len(listOfPoints) -1, -1, -1):
+        newNode = node(listOfPoints[i])
+        newNode.addMultipleSuccessors(graph.getAllNodes())
+        graph.setHead(newNode)
+
+    return graph

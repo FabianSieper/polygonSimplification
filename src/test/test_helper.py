@@ -1,6 +1,7 @@
 from unittest import TestCase
 from ..main.gpxParser import Point
-from ..main.helper import computeDistance
+from ..main.helper import computeDistance, buildDirectedGraph
+from ..main.gpxParser import parse
 
 import random
 
@@ -58,7 +59,13 @@ class Test(TestCase):
             self.fail("An exception occured while trying to compute distances for random points:")
             print(e)
 
-    # TODO
     def test_build_directed_graph(self):
 
-        pass
+        listOfPoints = parse("src/test/sample.gpx")
+
+        graph = buildDirectedGraph(listOfPoints)
+
+        if len(graph.getAllNodes()) == 0:
+            self.fail("No nodes were added to the list of all nodes while creating a directed graph ...")
+
+
