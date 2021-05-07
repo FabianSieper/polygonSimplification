@@ -1,6 +1,6 @@
 
 from .helper import buildDirectedGraph, computeDistance
-
+from .directedGraph import directedGraph, node
 from tqdm import tqdm
 import copy
 
@@ -20,6 +20,28 @@ def imaiIri(points, epsilon):
     reducedGraph = removeEdges(directedGraph, epsilon)
 
     # finally select the path with the least amount of nodes
+    return getShortestPath(reducedGraph)
+
+
+def getShortestPath(graph: directedGraph):
+    """
+    Selects the shortest path between the head and the tail of the graph
+    :param graph: the first element of a directedGraph
+    :type: directedGraph
+    :return: list of points, which in summary are the shortest connection between the head and the last leaf of the graph
+    """
+
+    # easy solution
+    shortestPath: list[node] = [graph.getHead()]
+
+    while True:
+        if len(shortestPath[-1].getAllSuccessor()) == 0:
+            break
+        else:
+            shortestPath.append(shortestPath[-1].getAllSuccessor()[-1])
+
+
+    return shortestPath
 
 
 def removeEdges(directedGraph, epsilon):

@@ -144,9 +144,7 @@ class node:
         """
         return self.allSuccessor
 
-    # TODO
     def __copy__(self):
-
         newNode = node(self.value)
         newNode.addMultipleSuccessors(self.allSuccessor)
         return newNode
