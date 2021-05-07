@@ -3,7 +3,6 @@ from ..main.douglasPeuker import *
 from ..main.gpxParser import *
 
 import random
-import traceback
 
 class Test(TestCase):
     def test_douglas_pecker(self):
@@ -57,14 +56,15 @@ class Test(TestCase):
         # -
 
         # test for random inputs: no exception should be thrown
-        for i in range(100):
-            try:
+        try:
+
+            for i in range(100):
                 startPoint = Point(random.random(), random.random())
                 endPoint = Point(random.random(), random.random())
                 distantPoint = Point(random.random(), random.random())
 
                 _ = computeDistance(startPoint, endPoint, distantPoint)
 
-            except Exception as e:
-                self.fail("An exception occured while trying to compute distances for random points:")
-                print(e)
+        except Exception as e:
+            self.fail("An exception occured while trying to compute distances for random points:")
+            print(e)
