@@ -1,8 +1,7 @@
 from unittest import TestCase
 from ..main.douglasPeuker import *
 from ..main.gpxParser import *
-from ..main.helper import *
-import random
+
 
 class Test(TestCase):
     def test_douglas_pecker(self):

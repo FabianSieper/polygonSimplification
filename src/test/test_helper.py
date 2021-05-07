@@ -3,6 +3,8 @@ from ..main.gpxParser import Point
 from ..main.helper import computeDistance
 
 import random
+
+
 class Test(TestCase):
     def test_compute_distance(self):
 
@@ -55,3 +57,8 @@ class Test(TestCase):
         except Exception as e:
             self.fail("An exception occured while trying to compute distances for random points:")
             print(e)
+
+    # TODO
+    def test_build_directed_graph(self):
+
+        pass

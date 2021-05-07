@@ -1,4 +1,5 @@
 from .gpxParser import Point
+from .directedGraph import *
 
 import math
 def computeDistance(startPoint: Point, endPoint: Point, distantPoint: Point):
@@ -28,3 +29,12 @@ def computeDistance(startPoint: Point, endPoint: Point, distantPoint: Point):
                     (startPoint.x() - distantPoint.x()) * (endPoint.y() - startPoint.y())) /
                     math.sqrt(math.pow(endPoint.x() - startPoint.x(), 2) + math.pow(endPoint.y() - startPoint.y(), 2))))
 
+
+
+def buildDirectedGraph(listOfPoints):
+    """
+    Computes a directed graph from the given list. Each Point points to all of if successors
+    :param listOfPoints: a list of Points
+    :return: a directed graph
+    """
+    pass
