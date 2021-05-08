@@ -1,10 +1,10 @@
 from unittest import TestCase
-from ..main.gpxParser import parse
-from .. main.gpxParser import Point
+from project.src.main.gpxParser import parse
+
 class Test(TestCase):
     def test_parse(self):
 
-        solution = parse("src/test/sample.gpx")
+        solution = parse("sample.gpx")
         if type(solution) != list:
             self.fail("The given solution is not of type list!")
 

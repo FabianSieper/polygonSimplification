@@ -1,12 +1,12 @@
 from unittest import TestCase
-from ..main.douglasPeuker import *
-from ..main.gpxParser import *
+from project.src.main.douglasPeuker import *
+from project.src.main.gpxParser import *
 
 
 class Test(TestCase):
     def test_douglas_pecker(self):
 
-        points = parse("src/test/sample.gpx")
+        points = parse("sample.gpx")
         epsilon = 0.119
         solution = douglasPecker(points, epsilon)
 

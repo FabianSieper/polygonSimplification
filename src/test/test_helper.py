@@ -1,7 +1,7 @@
 from unittest import TestCase
-from ..main.gpxParser import Point
-from ..main.helper import computeDistance, buildDirectedGraph
-from ..main.gpxParser import parse
+from project.src.main.gpxParser import Point
+from project.src.main.helper import computeDistance, buildDirectedGraph
+from project.src.main.gpxParser import parse
 
 import random
 
@@ -61,7 +61,7 @@ class Test(TestCase):
 
     def test_build_directed_graph(self):
 
-        listOfPoints = parse("src/test/sample.gpx")
+        listOfPoints = parse("sample.gpx")
 
         graph = buildDirectedGraph(listOfPoints)
 
