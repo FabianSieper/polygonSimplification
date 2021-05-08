@@ -1,9 +1,11 @@
 from unittest import TestCase
+import sys
+sys.path.append("..")
 
-from project.src.main.helper import buildDirectedGraph
-from project.src.main.gpxParser import parse
-from project.src.main.imaiIri import removeEdges, getShortestPath
-from project.src.main.directedGraph import directedGraph, node
+from main.helper import buildDirectedGraph
+from main.gpxParser import parse
+from main.imaiIri import removeEdges, getShortestPath
+from main.directedGraph import directedGraph, node
 
 class Test(TestCase):
 
@@ -11,7 +13,7 @@ class Test(TestCase):
         points = parse("sample.gpx")
         epsilon = 0.0001
         graph = buildDirectedGraph(points)
-        reducedGraph = removeEdges(graph, epsilon)
+        reducedGraph: directedGraph = removeEdges(graph, epsilon)
 
         if reducedGraph is None:
             self.fail("The returned graph is None ...")
@@ -34,3 +36,12 @@ class Test(TestCase):
 
         if len(shortestPath) == 0:
             self.fail("The returned variable does not contain any objects ...")
+
+        print("Test")
+
+
+
+if __name__ == "__main__":
+    test = Test()
+    test.test_get_shortest_path()
+    test.test_remove_edges()

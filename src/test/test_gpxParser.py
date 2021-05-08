@@ -1,5 +1,8 @@
 from unittest import TestCase
-from project.src.main.gpxParser import parse
+
+import sys
+sys.path.append("..")
+from main.gpxParser import parse
 
 class Test(TestCase):
     def test_parse(self):
@@ -10,3 +13,6 @@ class Test(TestCase):
 
         print(solution)
 
+if __name__ == "__main__":
+    test = Test()
+    test.test_parse()

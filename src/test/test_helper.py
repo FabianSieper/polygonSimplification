@@ -1,7 +1,10 @@
 from unittest import TestCase
-from project.src.main.gpxParser import Point
-from project.src.main.helper import computeDistance, buildDirectedGraph
-from project.src.main.gpxParser import parse
+import sys
+sys.path.append("..")
+
+from main.gpxParser import Point
+from main.helper import computeDistance, buildDirectedGraph
+from main.gpxParser import parse
 
 import random
 
@@ -69,3 +72,7 @@ class Test(TestCase):
             self.fail("No nodes were added to the list of all nodes while creating a directed graph ...")
 
 
+if __name__ == "__main__":
+    test = Test()
+    test.test_compute_distance()
+    test.test_build_directed_graph()

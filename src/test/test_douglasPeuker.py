@@ -1,6 +1,9 @@
 from unittest import TestCase
-from project.src.main.douglasPeuker import *
-from project.src.main.gpxParser import *
+import sys
+sys.path.append("..")
+
+from main.douglasPeuker import *
+from main.gpxParser import *
 
 
 class Test(TestCase):
@@ -16,3 +19,6 @@ class Test(TestCase):
         print(len(points))
         print(len(solution) if solution != None else None)
 
+if __name__ == "__main__":
+    test = Test()
+    test.test_douglas_pecker()

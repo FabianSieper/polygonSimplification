@@ -1,59 +1,3 @@
-class directedGraph:
-
-    """
-    Class for a directed graph
-    """
-    def __init__(self, head = None):
-        """
-        Instantiates a directed graph
-        :param head: a node object (the first object)
-        """
-        self.head = head
-        self.nodes = [] if head is None else [head]
-
-    def getAllNodes(self):
-        return self.nodes
-
-    def setAllnodes(self, allNodes):
-        """
-        replaces all nodes with the given list of nodes
-        :param allNodes: list of nodes
-        :type: list[node]
-        :return: --
-        """
-        self.nodes = allNodes
-
-
-    def addNode(self, node):
-        """
-        appends a node to the list of all nodes
-        :param node: a node object
-        :return: --
-        """
-        self.nodes.append(node)
-
-    def getHead(self):
-        return self.head
-
-    def setHead(self, head):
-        """
-        Sets the head of the directed graph
-        :param head: a node object
-        :return: --
-        """
-
-        self.nodes.insert(0, head)
-        self.head = head
-
-    def __copy__(self):
-
-        newGraph = directedGraph()
-        newGraph.setAllnodes(self.getAllNodes())
-        return newGraph
-
-    def copy(self):
-        return self.__copy__()
-
 class node:
 
     def __init__(self, value, successor = None):
@@ -148,3 +92,60 @@ class node:
         newNode = node(self.value)
         newNode.addMultipleSuccessors(self.allSuccessor)
         return newNode
+
+class directedGraph:
+
+    """
+    Class for a directed graph
+    """
+    def __init__(self, head = None):
+        """
+        Instantiates a directed graph
+        :param head: a node object (the first object)
+        """
+        self.head = head
+        self.nodes = [] if head is None else [head]
+
+    def getAllNodes(self) -> [node]:
+        return self.nodes
+
+    def setAllnodes(self, allNodes):
+        """
+        replaces all nodes with the given list of nodes
+        :param allNodes: list of nodes
+        :type: list[node]
+        :return: --
+        """
+        self.nodes = allNodes
+
+
+    def addNode(self, node):
+        """
+        appends a node to the list of all nodes
+        :param node: a node object
+        :return: --
+        """
+        self.nodes.append(node)
+
+    def getHead(self):
+        return self.head
+
+    def setHead(self, head):
+        """
+        Sets the head of the directed graph
+        :param head: a node object
+        :return: --
+        """
+
+        self.nodes.insert(0, head)
+        self.head = head
+
+    def __copy__(self):
+
+        newGraph = directedGraph()
+        newGraph.setAllnodes(self.getAllNodes())
+        return newGraph
+
+    def copy(self):
+        return self.__copy__()
+
