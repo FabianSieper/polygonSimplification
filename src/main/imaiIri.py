@@ -1,6 +1,8 @@
+import sys
+sys.path.append("../main")
 
-from .helper import buildDirectedGraph, computeDistance
-from .directedGraph import directedGraph, node
+from helper import buildDirectedGraph, computeDistance
+from directedGraph import directedGraph, node
 from tqdm import tqdm
 import copy
 

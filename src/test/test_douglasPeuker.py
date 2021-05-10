@@ -1,5 +1,6 @@
 from unittest import TestCase
 import sys
+
 sys.path.append("..")
 
 from main.douglasPeuker import *

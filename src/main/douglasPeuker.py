@@ -1,5 +1,10 @@
-from .helper import computeDistance
 
+import sys
+sys.path.append("../main")
+
+from helper import computeDistance
+
+# TODO: is not working correctly at this point ...
 def douglasPecker(points, epsilon, startIndex = -1, stopIndex = -1, selectedPoints = []):
     """
     Performs the douglas and pecker algorithm
@@ -16,6 +21,9 @@ def douglasPecker(points, epsilon, startIndex = -1, stopIndex = -1, selectedPoin
     """
 
 
+    if len(selectedPoints) == 0:
+        selectedPoints.append(points[0])
+        selectedPoints.append(points[-1])
     # get which start and endpoint shall be used
     realStartIndex = startIndex if startIndex > -1 else 0
     realStopIndex = stopIndex if stopIndex > -1 else -1

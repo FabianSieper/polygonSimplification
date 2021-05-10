@@ -1,5 +1,9 @@
-from .gpxParser import Point
-from .directedGraph import directedGraph, node
+import sys
+sys.path.append("../main")
+
+
+from gpxParser import Point
+from directedGraph import directedGraph, node
 
 import math
 def computeDistance(startPoint: Point, endPoint: Point, distantPoint: Point):

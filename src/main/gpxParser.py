@@ -36,7 +36,7 @@ class Point:
 def parse(filepath):
     """
     :param filepath: path to a .gpx file
-    :return: a list of dicts, containing latitude, longitude
+    :return: a list of points, containing latitude, longitude
     """
     readPoints = []
     with open(filepath, "r") as gpx_file:
