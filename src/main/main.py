@@ -73,6 +73,7 @@ def drawPolygon(listOfPoints, label = [], path = None, showImage = True):
 
     if showImage:
         plt.show()
+
 def main():
     """
     main function which makes use of all implemented simplification-algorithms
