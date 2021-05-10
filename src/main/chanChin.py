@@ -128,6 +128,55 @@ def buildGraph(points, epsilon):
 
     return shortcutGraph
 
+def createCutBetweenDirGraphs(graph1, graph2):
+    """
+    Takes two directed graphs, cuts them and returns a directed graph which only contains those edges
+    which are contained in both graphs (independent of the direction)
+    :param graph1: directed graph 1
+    :type: directedGraph
+    :param graph2: directed graph 2
+    :type: directedGraph
+    :return: a directed graph
+    :type: directedGraph
+    """
+
+    # make sure to not change values outside of the function (pure function)
+    graph1 = deepcopy(graph1)
+    graph2 = deepcopy(graph2)
+
+    # will be modified and returned later on
+    outputGraph = directedGraph()
+
+    # sort the nodes in the graphs
+    graph1.sortNodes(lambda a: a.getValue().getIndex())
+    graph2.sortNodes(lambda a: a.getValue().getIndex())
+
+    for i in range(len(graph1.getAllNodes())):
+
+        # for each node of graph 1
+        startNode: node = graph1.getAllNodes()[i]
+        correctedNode: node = deepcopy(startNode)
+
+        for j in range(len(startNode.getAllSuccessor())):
+
+            # and for each of the connections of the startNode
+            endNode: node = startNode.getAllSuccessor()[j]
+
+            # get endNode in graph2
+            startNodeGraph2: node = graph2.getAllNodes()[graph2.getAllNodes().index(endNode)]
+
+            # if same connection (but reversed) does not exists in graph2,
+            if not (startNode in startNodeGraph2.getAllSuccessor()):
+                # then remove that connection in graph1
+                correctedNode.removeSuccessor(endNode)
+
+        # add node which only contains the right connections to the output graph
+        outputGraph.addNode(correctedNode)
+
+    return outputGraph
+
+
+
 def chanChin(points: [Point], epsilon: float):
     """
     Performs the chan and chin algorithm on a polygon
@@ -145,7 +194,20 @@ def chanChin(points: [Point], epsilon: float):
     points.reverse()
     gPrimeInverse = buildGraph(points, epsilon)
 
-
     # get cut between graphs G_prime and G_prime_prime
+    # TODO: the first node of the graph has no connection to the next node
+    cutGraph = createCutBetweenDirGraphs(gPrime, gPrimeInverse)
+
+    # TODO: remove these lines:
+    if len(cutGraph.getAllNodes()[0].getAllSuccessor()) == 0:
+        print("ERROR - The first node does not has a single connection")
+        exit()
 
     # find shortest path in linear time
+    shortestPathNodes = cutGraph.findShortestPath()
+
+    # transform list of nodes into list of points
+    shortesPathPoints = [nodeInst.getValue() for nodeInst in shortestPathNodes]
+
+    # return list of points
+    return shortesPathPoints

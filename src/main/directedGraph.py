@@ -88,10 +88,30 @@ class node:
         """
         return self.allSuccessor
 
+    def deleteSuccessor(self, successor):
+        """
+        Removes a successor from the list of all successors
+        :param successor: node object
+        :return:
+        """
+
+        # only try to delete node if in list of all successors
+        if successor in self.allSuccessor:
+            self.allSuccessor.remove(successor)
+
+
     def __copy__(self):
         newNode = node(self.value)
         newNode.addMultipleSuccessors(self.allSuccessor)
         return newNode
+
+    def __eq__(self, other):
+
+        if self.value == other.getValue():
+            return True
+
+        return False
+
 
 class directedGraph:
 
@@ -105,6 +125,18 @@ class directedGraph:
         """
         self.head = head
         self.nodes = [] if head is None else [head]
+
+    def sortNodes(self, function, reverse = False):
+        """
+        Sorts the contained nodes
+        :param function: a lambda which returns the value after which shall be compared
+        :type: lambda
+        :param reverse: shall the list be sorted in reverse?
+        :type: bool
+        :return: ---
+        """
+
+        self.nodes = sorted(self.nodes, key=function, reverse=reverse)
 
     def getAllNodes(self) -> [node]:
         return self.nodes
@@ -153,4 +185,25 @@ class directedGraph:
 
     def copy(self):
         return self.__copy__()
+
+    def findShortestPath(self):
+        """
+        Searches the shortest path from the first node in allNodes to the last node in allNodes
+        :return: list of nodes
+        :type: [node]
+        """
+
+        if len(self.nodes) < 3:
+            return self.getAllNodes()
+
+        shortestPath: list[node] = [self.head]
+
+        while True:
+            if len(shortestPath[-1].getAllSuccessor()) == 0:
+                break
+            else:
+                shortestPath.append(shortestPath[-1].getAllSuccessor()[-1])
+
+        return shortestPath
+
 

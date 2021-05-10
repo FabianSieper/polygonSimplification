@@ -90,8 +90,7 @@ def main():
 
     chanChin_points = chanChin(points=readPoints, epsilon=epsilon)
 
-    # TODO:  uncomment this line for the drawing of the graphs
-    # drawPolygon([readPoints, douglas_points, imai_points], label=["original", "douglas", "imai"])
+    drawPolygon([readPoints, douglas_points, imai_points, chanChin_points], label=["original", "douglas", "imai", "chanChin"])
 
 
 if __name__ == "__main__":
