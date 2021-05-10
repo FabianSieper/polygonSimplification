@@ -32,6 +32,12 @@ class Point:
     def getIndex(self):
         return self.index
 
+    def __eq__(self, other):
+
+        if self.latitude == other.getLatitude() and self.longitude == other.getLongitude() and self.index == other.getIndex():
+            return True
+
+        return False
 
 def parse(filepath):
     """

@@ -82,7 +82,7 @@ def main():
     filePath = getFilePath()
     readPoints = parse(filePath)
 
-    epsilon_douglas = 0.01
+    epsilon_douglas = 0.001
     douglas_points = douglasPecker(points=readPoints, epsilon=epsilon_douglas)
 
     epsilon_imai = 0.0001

@@ -4,7 +4,6 @@ sys.path.append("../main")
 
 from helper import computeDistance
 
-# TODO: is not working correctly at this point ...
 def douglasPecker(points, epsilon, startIndex = -1, stopIndex = -1, selectedPoints = []):
     """
     Performs the douglas and pecker algorithm
@@ -20,19 +19,18 @@ def douglasPecker(points, epsilon, startIndex = -1, stopIndex = -1, selectedPoin
             - if a list of points cant be computed under the given preconditions, return None
     """
 
-
-    if len(selectedPoints) == 0:
-        selectedPoints.append(points[0])
-        selectedPoints.append(points[-1])
     # get which start and endpoint shall be used
     realStartIndex = startIndex if startIndex > -1 else 0
-    realStopIndex = stopIndex if stopIndex > -1 else -1
+    realStopIndex = stopIndex if stopIndex > -1 else len(points)
 
-    listOfPoints = points[realStartIndex : realStopIndex]
 
-    # check if there are still enough points in the list
+    listOfPoints = points[realStartIndex:realStopIndex]
+
+
+    # check if there are still enough points in the list to optimize a path
     if len(listOfPoints) < 3:
-        return None
+        selectedPoints.extend(listOfPoints)
+        return selectedPoints
 
     startPoint = listOfPoints[0]
     endPoint = listOfPoints[-1]
@@ -47,21 +45,27 @@ def douglasPecker(points, epsilon, startIndex = -1, stopIndex = -1, selectedPoin
     maxDistance = 0
     mostDistantPoint = -1
 
-    for index, point in enumerate(listOfPoints):
+    for i in range(realStartIndex, realStopIndex, 1):
+        point = points[i]
         # compute distance of point
         distance = computeDistance(startPoint, endPoint, point)
         if distance > maxDistance:
-            mostDistantPoint = index
+            mostDistantPoint = i
             maxDistance = distance
 
     if maxDistance > epsilon:
-        selectedPoints.append(listOfPoints[mostDistantPoint])
+        # append the point with the furthest distance to the solution trajectory
+        if not points[mostDistantPoint] in selectedPoints:
+            selectedPoints.append(points[mostDistantPoint])
+
+        # get the best simplification for a part of the trajectory
+
         selectedPoints = douglasPecker(points, epsilon, realStartIndex, mostDistantPoint, selectedPoints)
 
-        if not selectedPoints:
-            return None
-
+        # get the best simplification for the second part of the trajectory
         selectedPoints = douglasPecker(points, epsilon, mostDistantPoint, realStopIndex, selectedPoints)
 
+    # sort list after the index of each of the points (the new path has to be in the same order as the old one)
+    selectedPoints = sorted(selectedPoints, key=lambda pt: pt.getIndex())
     return selectedPoints
 
