@@ -4,6 +4,8 @@ sys.path.append("../main")
 
 from helper import computeDistance
 
+from copy import deepcopy
+
 def douglasPecker(points, epsilon, startIndex = -1, stopIndex = -1, selectedPoints = []):
     """
     Performs the douglas and pecker algorithm
@@ -16,9 +18,9 @@ def douglasPecker(points, epsilon, startIndex = -1, stopIndex = -1, selectedPoin
     :param selectedPoints: A list of points, which were already selected by the algorithm
                         - this list will be returned at the end
     :return: a list of remaining points
-            - if a list of points cant be computed under the given preconditions, return None
     """
 
+    points = deepcopy(points)
     # get which start and endpoint shall be used
     realStartIndex = startIndex if startIndex > -1 else 0
     realStopIndex = stopIndex if stopIndex > -1 else len(points)

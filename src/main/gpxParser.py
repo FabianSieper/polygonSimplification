@@ -24,10 +24,10 @@ class Point:
         return self.latitude
 
     def x(self):
-        return self.latitude
+        return self.longitude
 
     def y(self):
-        return self.longitude
+        return self.latitude
 
     def getIndex(self):
         return self.index

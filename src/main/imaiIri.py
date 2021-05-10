@@ -5,6 +5,7 @@ from helper import buildDirectedGraph, computeDistance
 from directedGraph import directedGraph, node
 from tqdm import tqdm
 import copy
+from copy import deepcopy
 
 def imaiIri(points, epsilon):
     """
@@ -15,6 +16,7 @@ def imaiIri(points, epsilon):
             - if a list of points cant be computed under the given preconditions, return None
     """
 
+    points = deepcopy(points)
     # build a directed graph
     directedGraph = buildDirectedGraph(points)
 
@@ -22,7 +24,7 @@ def imaiIri(points, epsilon):
     reducedGraph = removeEdges(directedGraph, epsilon)
 
     # finally select the path with the least amount of nodes
-    return getShortestPath(reducedGraph)
+    return [imai.getValue() for imai in getShortestPath(reducedGraph)]
 
 
 def getShortestPath(graph: directedGraph):

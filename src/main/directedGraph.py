@@ -33,7 +33,7 @@ class node:
         if len(self.allSuccessor) == 0:
             self.successor = successor
 
-        self.successor.append(successor)
+        self.allSuccessor.append(successor)
 
     def addMultipleSuccessors(self, successors):
         """
@@ -121,10 +121,15 @@ class directedGraph:
 
     def addNode(self, node):
         """
-        appends a node to the list of all nodes
+        appends a node to the list of all nodes.
+        If no head was set yet - a head is set additionally
         :param node: a node object
         :return: --
         """
+
+        if self.head is None:
+            self.head = node
+
         self.nodes.append(node)
 
     def getHead(self):

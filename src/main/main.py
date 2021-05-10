@@ -3,6 +3,7 @@ from douglasPeuker import *
 from gpxParser import *
 from helper import *
 from imaiIri import *
+from chanChin import *
 
 import argparse
 import matplotlib.pyplot as plt
@@ -81,16 +82,16 @@ def main():
     """
     filePath = getFilePath()
     readPoints = parse(filePath)
+    epsilon = 0.0005
 
-    epsilon_douglas = 0.001
-    douglas_points = douglasPecker(points=readPoints, epsilon=epsilon_douglas)
+    douglas_points = douglasPecker(points=readPoints, epsilon=epsilon)
 
-    epsilon_imai = 0.0001
-    imai_nodes = imaiIri(points=readPoints, epsilon=epsilon_imai)
-    imai_points = [imai.getValue() for imai in imai_nodes]
+    imai_points = imaiIri(points=readPoints, epsilon=epsilon)
 
+    chanChin_points = chanChin(points=readPoints, epsilon=epsilon)
 
-    drawPolygon([readPoints, douglas_points, imai_points], label=["original", "douglas", "imai"])
+    # TODO:  uncomment this line for the drawing of the graphs
+    # drawPolygon([readPoints, douglas_points, imai_points], label=["original", "douglas", "imai"])
 
 
 if __name__ == "__main__":
