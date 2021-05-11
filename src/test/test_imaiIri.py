@@ -1,11 +1,11 @@
 from unittest import TestCase
 import sys
-sys.path.append("..")
+sys.path.append("../main")
 
-from main.helper import buildDirectedGraph
-from main.gpxParser import parse
-from main.imaiIri import removeEdges, getShortestPath
-from main.directedGraph import directedGraph, node
+from helper import buildDirectedGraph
+from gpxParser import parse
+from imaiIri import removeEdges, getShortestPath
+from directedGraph import directedGraph, node
 
 class Test(TestCase):
 
@@ -37,7 +37,6 @@ class Test(TestCase):
         if len(shortestPath) == 0:
             self.fail("The returned variable does not contain any objects ...")
 
-        print("Test")
 
 
 

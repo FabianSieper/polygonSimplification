@@ -1,10 +1,10 @@
 from unittest import TestCase
 import sys
-sys.path.append("..")
+sys.path.append("../main")
 
-from main.gpxParser import Point
-from main.helper import computeDistance, buildDirectedGraph
-from main.gpxParser import parse
+from gpxParser import Point
+from helper import computeDistance, buildDirectedGraph
+from gpxParser import parse
 
 import random
 

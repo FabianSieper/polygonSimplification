@@ -1,14 +1,16 @@
 from unittest import TestCase
 import sys
 
-sys.path.append("..")
+sys.path.append("../main")
 
-from main.chanChin import buildGraph, getWedge, makeWedgeCut
-from main.gpxParser import parse, Point
-from main.directedGraph import directedGraph
+from chanChin import buildGraph, getWedge, makeWedgeCut, createCutBetweenDirGraphs
+from gpxParser import parse, Point
+from directedGraph import directedGraph
+from main import drawPolygon
 
 import numpy as np
 import random
+
 
 class Test(TestCase):
     def test_build_graph(self):
@@ -21,7 +23,6 @@ class Test(TestCase):
 
         if len(graph.getAllNodes()) == 0:
             self.fail("The graph is empty and does not contain any nodes.")
-
 
     def test_get_wedge(self):
         point1 = Point(1, 2)
@@ -43,7 +44,6 @@ class Test(TestCase):
             self.fail("The first element of the returned tuple always has to be bigger or equal to the second value. "
                       "Values are: " + str(wedge))
 
-
     def test_make_wedge_cut(self):
         point1 = Point(1, 2)
         point2 = Point(3, 5)
@@ -56,7 +56,7 @@ class Test(TestCase):
 
         cut1 = makeWedgeCut(wedge1, wedge2)
 
-        if cut1[0] != cut1[1] :
+        if cut1[0] != cut1[1]:
             self.fail("The cut should be empty, but is not. Cut is: " + str(cut1))
 
         wedge3 = getWedge(point1, point4, epsilon)
@@ -67,7 +67,6 @@ class Test(TestCase):
 
         if cut2[0] == cut2[1]:
             self.fail("The wedge should not have a range of zero! Cut is: " + str(cut2))
-
 
         # make 100 random wedges
         for i in range(100):
@@ -80,3 +79,40 @@ class Test(TestCase):
             if wedge1 is None:
                 self.fail("The wedge should not be None!")
 
+
+    def test_create_cut_between_dir_graphs(self):
+
+
+        point1 = Point(1, 2)
+        point2 = Point(1, 3)
+        point3 = Point(1, 4)
+        point4 = Point(4, 4)
+        epsilon = 0.5
+
+
+        graph1: directedGraph = buildGraph([point1, point2, point3, point4], epsilon)
+
+        graph2: directedGraph = buildGraph([point4, point3, point2, point1], epsilon)
+
+
+        cutGraph = createCutBetweenDirGraphs(graph1, graph2)
+
+        if len(cutGraph.getAllNodes()) != 4:
+            self.fail("The cut graph should have exactly four nodes!")
+
+
+        # --
+        points: [Point] = parse("sample.gpx")
+        epsilon = 0.0005
+
+        graph1: directedGraph = buildGraph(points, epsilon)
+
+        # reverse the order of the points to build an inverse graph
+        points.reverse()
+        graph2: directedGraph = buildGraph(points, epsilon)
+
+        cutGraph = createCutBetweenDirGraphs(graph1, graph2)
+
+        shortestPath = cutGraph.findShortestPath()
+
+        print(len(cutGraph.getAllNodes()))

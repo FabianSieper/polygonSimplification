@@ -1,10 +1,10 @@
 from unittest import TestCase
 import sys
 
-sys.path.append("..")
+sys.path.append("../main")
 
-from main.douglasPeuker import *
-from main.gpxParser import *
+from douglasPeuker import *
+from gpxParser import *
 
 
 class Test(TestCase):

@@ -148,6 +148,11 @@ class directedGraph:
         :type: list[node]
         :return: --
         """
+
+        if len(allNodes) == 0:
+            return
+
+        self.head = allNodes[0]
         self.nodes = allNodes
 
 
@@ -202,7 +207,9 @@ class directedGraph:
             if len(shortestPath[-1].getAllSuccessor()) == 0:
                 break
             else:
-                shortestPath.append(shortestPath[-1].getAllSuccessor()[-1])
+                # compute the index of the original node, as only the original nodes have successors
+                indexOfOriginalNode = self.nodes.index(shortestPath[-1].getAllSuccessor()[-1])
+                shortestPath.append(self.nodes[indexOfOriginalNode])
 
         return shortestPath
 

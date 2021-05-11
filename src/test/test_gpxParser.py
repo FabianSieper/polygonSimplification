@@ -1,8 +1,8 @@
 from unittest import TestCase
 
 import sys
-sys.path.append("..")
-from main.gpxParser import parse
+sys.path.append("../main")
+from gpxParser import parse
 
 class Test(TestCase):
     def test_parse(self):

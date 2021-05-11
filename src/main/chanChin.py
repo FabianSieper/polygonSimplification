@@ -33,7 +33,9 @@ def getWedge(point1, point2, epsilon):
 
     # check if normalization of vector is working correctly
 
+
     assert len(normOrthVec) == 2 and np.round(np.sqrt(np.power(normOrthVec[0], 2) + np.power(normOrthVec[1], 2)), 5) == 1.
+
     # check if both vectors are still orthogonal to each other
     assert np.round(normOrthVec[0] * vec1To2[0] + normOrthVec[1] * vec1To2[1], 5) == 0
 
@@ -53,6 +55,12 @@ def getWedge(point1, point2, epsilon):
     # compute degrees in the unit circle from these two vectors
     deg1 = np.arctan2(outVec1[1], outVec1[0]) * 180 / np.pi
     deg2 = np.arctan2(outVec2[1], outVec2[0]) * 180 / np.pi
+
+    if deg1 < 0:
+        deg1 += 360
+
+    if deg2 < 0:
+        deg2 += 360
 
     return (deg1, deg2) if deg1 > deg2 else (deg2, deg1)
 
@@ -78,10 +86,10 @@ def makeWedgeCut(wedge1, wedge2):
     return (wedge1[0] if wedge1[0] < wedge2[0] else wedge2[0], wedge1[1] if wedge1[1] > wedge2[1] else wedge2[1])
 
 
-# TODO: this function is not ready yet
 def buildGraph(points, epsilon):
     """
-    Builds directed graph G from the list of points
+    Builds directed graph G from the list of points.
+    The list of points is not allowed to have duplicates.
     :param points: list of lat and long values of points
     :param epsilon: the parameter epsilon of the algorithm from douglas and pecker
     :return: a directed shortcut graph
@@ -93,7 +101,7 @@ def buildGraph(points, epsilon):
 
     # compute intersection in which the next points lays
     # for each of the nodes between the start and the end node
-    for i in range(1, len(points) - 1, 1):
+    for i in range(0, len(points) - 1, 1):
 
         startPoint = points[i]
         startNode = node(startPoint)
@@ -155,12 +163,14 @@ def createCutBetweenDirGraphs(graph1, graph2):
 
         # for each node of graph 1
         startNode: node = graph1.getAllNodes()[i]
+        # copy node for further processing and manipulation
         correctedNode: node = deepcopy(startNode)
 
         for j in range(len(startNode.getAllSuccessor())):
 
             # and for each of the connections of the startNode
-            endNode: node = startNode.getAllSuccessor()[j]
+            # (the original node has to be taken from the graph, as only the original nodes have further successors)
+            endNode: node = graph1.getAllNodes()[graph1.getAllNodes().index(startNode.getAllSuccessor()[j])]
 
             # get endNode in graph2
             startNodeGraph2: node = graph2.getAllNodes()[graph2.getAllNodes().index(endNode)]
@@ -195,13 +205,7 @@ def chanChin(points: [Point], epsilon: float):
     gPrimeInverse = buildGraph(points, epsilon)
 
     # get cut between graphs G_prime and G_prime_prime
-    # TODO: the first node of the graph has no connection to the next node
     cutGraph = createCutBetweenDirGraphs(gPrime, gPrimeInverse)
-
-    # TODO: remove these lines:
-    if len(cutGraph.getAllNodes()[0].getAllSuccessor()) == 0:
-        print("ERROR - The first node does not has a single connection")
-        exit()
 
     # find shortest path in linear time
     shortestPathNodes = cutGraph.findShortestPath()
