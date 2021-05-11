@@ -25,6 +25,10 @@ def getWedge(point1, point2, epsilon):
     # compute vector from point 1 to point 2
     vec1To2 = np.array([point2.x() - point1.x(), point2.y() - point1.y()])
 
+    # if the two points are laying on each other, the wedge has a range of 360 degree
+    if vec1To2[0] == 0 and vec1To2[1] == 0:
+        return [360, 0]
+
     # compute the orthogonal vector of the vector between the two points
     orthVec = np.array([vec1To2[1], vec1To2[0] * -1])
 
@@ -32,9 +36,8 @@ def getWedge(point1, point2, epsilon):
     normOrthVec = orthVec / np.sqrt(np.sum(np.power(orthVec, 2)))
 
     # check if normalization of vector is working correctly
-
-
     assert len(normOrthVec) == 2 and np.round(np.sqrt(np.power(normOrthVec[0], 2) + np.power(normOrthVec[1], 2)), 5) == 1.
+
 
     # check if both vectors are still orthogonal to each other
     assert np.round(normOrthVec[0] * vec1To2[0] + normOrthVec[1] * vec1To2[1], 5) == 0

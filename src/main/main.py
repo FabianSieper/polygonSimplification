@@ -7,6 +7,7 @@ from chanChin import *
 
 import argparse
 import matplotlib.pyplot as plt
+import time
 
 def getFilePath():
     """
@@ -90,8 +91,92 @@ def main():
 
     chanChin_points = chanChin(points=readPoints, epsilon=epsilon)
 
+
+    drawPolygon([readPoints, douglas_points], label=["original", "douglas"])
+
+    drawPolygon([readPoints, imai_points], label=["original", "imai"])
+
+    drawPolygon([readPoints, chanChin_points], label=["original", "chanChin"])
+
     drawPolygon([readPoints, douglas_points, imai_points, chanChin_points], label=["original", "douglas", "imai", "chanChin"])
+
+def measureTime():
+    """
+    This function uses multiple .gpx files to measure the time required and the amount of nodes chosen for the
+    shortcut graphs of each of the algorithms. These measurements then are plotted.
+    """
+
+    filePaths = ["gpxFiles/file1.gpx", "gpxFiles/file2.gpx", "gpxFiles/file3.gpx", "gpxFiles/file4.gpx", "gpxFiles/file5.gpx"]
+
+    # read each file and sort them after the size of the file
+    sizes = []
+    for file in filePaths:
+        sizes.append(len(parse(file)))
+
+    # sort the list of files according to the list of sizes
+    sizes, filePaths = zip(*sorted(zip(sizes, filePaths)))
+
+    # --------------------------
+
+    # list for the storage of the required times of each of the algorithms
+    requiredTimes = []
+    # list of the storage of the amount of nodes required for the creation of ech of the shortcut graphs
+    amountPoints = []
+    epsilon = 0.00005
+
+    # get the execution time of each of the algorithms
+    for file in filePaths:
+
+        # read the points from the file
+        readPoints = parse(file)
+
+        # measure the time of douglas
+        startTime = time.time()
+        douglasPoints = douglasPecker(points=readPoints, epsilon=epsilon)
+        endTime = time.time()
+        durationDouglas = endTime - startTime
+
+        # measure the time of imaiIri
+        startTime = time.time()
+        imaiIriPoints = imaiIri(points=readPoints, epsilon=epsilon)
+        endTime = time.time()
+        durationImai = endTime - startTime
+
+        # measure the time of chan & chin
+        startTime = time.time()
+        chanChinPoints = chanChin(points=readPoints, epsilon=epsilon)
+        endTime = time.time()
+        durationChanChin = endTime - startTime
+
+        requiredTimes.append({"douglas": durationDouglas, "imai": durationImai, "chanChin": durationChanChin})
+        amountPoints.append({"douglas": len(douglasPoints), "imai": len(imaiIriPoints), "chanChin": len(chanChinPoints)})
+
+
+    # plot the execution times
+    # for each of the algorithms
+    for alg in requiredTimes[0].keys():
+
+        plt.plot(sizes, [file[alg] for file in requiredTimes])
+
+    plt.title("Processing time")
+    plt.ylabel("time in s")
+    plt.xlabel("Amount nodes")
+    plt.legend(requiredTimes[0].keys())
+    plt.show()
+
+    # plot the length of the shortcut graphs
+    # for each of the algorithms
+    for alg in amountPoints[0].keys():
+
+        plt.plot(sizes, [file[alg] for file in amountPoints])
+
+    plt.title("Amount of nodes in the shortcut graphs")
+    plt.ylabel("Amount shortcut nodes")
+    plt.xlabel("Amount initial nodes")
+    plt.legend(amountPoints[0].keys())
+    plt.show()
 
 
 if __name__ == "__main__":
     main()
+    measureTime()
