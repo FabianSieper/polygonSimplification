@@ -1,30 +1,10 @@
-from directedGraph import *
 from douglasPeuker import *
-from gpxParser import *
-from helper import *
 from imaiIri import *
 from chanChin import *
 
-import argparse
 import matplotlib.pyplot as plt
 import time
 
-def getFilePath():
-    """
-    Reads command line arguments
-    :return: file, from which the data shall be read, or None if no arg was found
-    """
-
-    parser = argparse.ArgumentParser(description="Simplification of polygons")
-    parser.add_argument('-o', "--file", help = "Path to an .gpx file")
-
-    args = parser.parse_args()
-
-    if args.file:
-        return args.file
-
-    print("INFO - No file was given by the command line - using default file for further processing ...")
-    return "../test/sample.gpx"
 
 
 def drawPolygon(listOfPoints, label = [], path = None, showImage = True):
@@ -81,8 +61,7 @@ def main():
     main function which makes use of all implemented simplification-algorithms
     :return: --
     """
-    filePath = getFilePath()
-    readPoints = parse(filePath)
+    readPoints = parse("../test/sample.gpx")
     epsilon = 0.0005
 
     douglas_points = douglasPecker(points=readPoints, epsilon=epsilon)
